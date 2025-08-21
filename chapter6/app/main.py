@@ -29,7 +29,7 @@ async def main(category:str,limit:int=20):
     }
 
 
-#default quesry parameter
+#default query parameter
 @app.get("/products")
 async def main(limit:int=20,category:str=None):
     return{
@@ -37,3 +37,4 @@ async def main(limit:int=20,category:str=None):
         "category":category,
         "limit":limit
     }
+

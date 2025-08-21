@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,status
 
 app = FastAPI()
 
@@ -40,7 +40,7 @@ async def main_route():
     return {"write /product to go to the product_list route page"}
 
 #all product fetching
-@app.get("/product")
+@app.get("/product",status_code=status.HTTP_200_OK)
 async def prod_list():
     return products
 
@@ -53,7 +53,7 @@ async def sing_prod(product_id:int):
         
 # post request
 ## create or insert data
-@app.post("/product")
+@app.post("/product",status_code=status.HTTP_201_CREATED)
 async def create_prod(new_product:dict):
     products.append(new_product)
     return{"response":"created","new_product":new_product}
@@ -88,3 +88,4 @@ async def product_delete(product_id:int):
         if product["id"] == product_id:
             products.pop(index)
             return{"status":"product deleted", "product_id":product_id}
+        
