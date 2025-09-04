@@ -69,3 +69,5 @@ def delete_post(post_id:int):
         if post:
             session.delete(post)
             session.commit()
+
+# sry for todays i have some issues thats why i cant able to do the todays session 
