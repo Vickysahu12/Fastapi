@@ -71,10 +71,17 @@ def update_user_email(user_id:int,new_email:str):
 #             session.commit()
 
 # Delete Post :-
+# def delete_post(post_id:int):
+#     with SessionLocal as session:
+#         post = session.get(Post,post_id)
+#         if post:
+#             session.delete(post)
+#             session.commit()
+
+#delete Post :-
 def delete_post(post_id:int):
     with SessionLocal as session:
         post = session.get(Post,post_id)
         if post:
             session.delete(post)
             session.commit()
-
