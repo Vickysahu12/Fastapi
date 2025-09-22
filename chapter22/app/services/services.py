@@ -69,3 +69,6 @@ def delete_post(post_id:int):
         if post:
             session.delete(post)
             session.commit()
+
+            # i will fucking smash it from tomorrow the best ever edtech startup will be launch on november 11 be ready for it 
+            # in next year it will be 100million dollar company mark my fucking word 
