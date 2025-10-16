@@ -1,4 +1,4 @@
-from sqlmodel import Session
+from sqlmodel import Session,select
 from db.db import engine
 from models.models import User,Owner
 
@@ -18,3 +18,15 @@ def create_owner(name:str,email:str):
         session.commit()
         session.refresh(owner)
         return owner
+    
+def get_all_users():
+    with Session(engine) as session:
+        stmt = select(User)
+        users = session.exec(stmt)
+        return users.all()
+    
+def get_user(user_id:int):
+    with Session(engine) as session:
+        stmt = select(User).where(User.id == user_id)
+        user = session.exec(stmt).first()
+        return user
