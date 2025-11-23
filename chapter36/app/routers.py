@@ -7,6 +7,3 @@ router = APIRouter()
 async def Crack_CAT():
     return {"data":"LRDI WITH 98.95 percentile"}
 
-@router.get("/me")
-async def Crack_Edtechmarket():
-    return{"data":"lets make some revolution with my edtech startup kivvy"}
