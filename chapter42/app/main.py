@@ -110,5 +110,13 @@ async def multicast(message: str, sender:WebSocket = None):
             except:
                 pass
 
+async def manycast(message: str, sender:WebSocket = None):
+    for conn in active_connections:
+        if conn != sender:
+            try:
+                await conn.send_text(message)
+            except:
+                pass
+
 # We will gonna make an chat application where user can chat with there friends only personal chatting or we will 
 # gonna make an discord app for cat student where student can enroll and can ask question to their friends
