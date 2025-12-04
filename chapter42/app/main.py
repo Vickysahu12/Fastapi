@@ -102,39 +102,3 @@ async def broadcast(message: str, sender: WebSocket = None):
                 pass
 
 
-async def multicast(message: str, sender:WebSocket = None):
-    for conn in active_connections:
-        if conn != sender:
-            try:
-                await conn.send_text(message)
-            except:
-                pass
-
-async def manycast(message: str, sender:WebSocket = None):
-    for conn in active_connections:
-        if conn != sender:
-            try:
-                await conn.send_text(message)
-            except:
-                pass
-
-async def differentcast(message: str, sender:WebSocket = None):
-    for conn in active_connections:
-        if conn != sender:
-            try:
-                await conn.send_text(message)
-            except:
-                pass
-
-async def willcast(message: str, sender:WebSocket = None):
-    for conn in active_connections:
-        if conn != sender:
-            try:
-                await conn.send_text(message)
-            except:
-                pass
-# We will gonna make an chat application where user can chat with there friends only personal chatting or we will 
-# gonna make an discord app for cat student where student can enroll and can ask question to their friends
-# sry yarr for todays and tomorrow we will restart again and in this month we will gonna launch our application
-
-# will gonna restart again
