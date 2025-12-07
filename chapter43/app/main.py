@@ -13,3 +13,7 @@ async def all_items():
 @app.get("/me")
 async def me():
     return "hey this is me 'vicky'"
+
+@app.get("/sweety")
+async def sweety():
+    return "hey this is my girlfriend'"
