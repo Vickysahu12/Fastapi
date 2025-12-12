@@ -1,8 +1,10 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends, HTTPException
 from app.account.services import create_user, authenticate_user
 from app.account.models import UserCreate, UserOut
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
+from app.account.utils import create_tokens
+from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/account", tags=["Account"])
 
@@ -12,4 +14,10 @@ def register(session:SessionDep, user:UserCreate):
 
 @router.post("/login")
 def login(session:SessionDep, form_data:OAuth2PasswordRequestForm = Depends()):
-    user = authenticate_user(session)
+    user = authenticate_user(session, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid Credentials")
+    tokens = create_tokens(session,user)
+    response = JSONResponse(content={"access_token": tokens["access_token"]})
+    response.set_cookie("refresh_token", tokens["refresh_token"], httponly=True, secure=True, samesite="lax")
+    return response
