@@ -16,8 +16,9 @@ def register(session:SessionDep, user:UserCreate):
 def login(session:SessionDep, form_data:OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(session, form_data.username, form_data.password)
     if not user:
-        raise HTTPException(status_code=401, detail="Invalid Credentials")
+        raise HTTPException(status_code=401, detail="Invalid Credentials please put some valid credentials")
     tokens = create_tokens(session,user)
     response = JSONResponse(content={"access_token": tokens["access_token"]})
     response.set_cookie("refresh_token", tokens["refresh_token"], httponly=True, secure=True, samesite="lax")
     return response
+

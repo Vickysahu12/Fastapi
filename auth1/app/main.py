@@ -11,3 +11,7 @@ async def lifespan(app:FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(account_router)
+
+@app.get("/")
+async def main():
+    return "Hey I am learning now how to implement AUTH SYSTEM"
