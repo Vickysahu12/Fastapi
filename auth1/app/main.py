@@ -14,4 +14,6 @@ app.include_router(account_router)
 
 @app.get("/")
 async def main():
-    return "Hey I am learning now how to implement AUTH SYSTEM"
+    return {
+        "data":"we are just making an auth system that can be used in my app"
+    }
