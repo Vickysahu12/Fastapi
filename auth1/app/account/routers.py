@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
 from app.account.utils import create_tokens, verify_refresh_token
 from fastapi.responses import JSONResponse
+from app.account.dependencies import get_current_user
 
 router = APIRouter(prefix="/account", tags=["Account"])
 
@@ -32,3 +33,7 @@ def refresh_token(session:SessionDep, request:Request):
     if not user:
         raise HTTPException(status_code=401, detail="Invalid or expired Refresh token")
     return create_tokens(session,user)
+
+@router.get("/me", response_model=UserOut)
+def me(user = Depends(get_current_user)):
+    return user
