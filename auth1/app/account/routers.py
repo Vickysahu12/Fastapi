@@ -1,9 +1,9 @@
-from fastapi import APIRouter,Depends, HTTPException
+from fastapi import APIRouter,Depends, HTTPException,Request
 from app.account.services import create_user, authenticate_user
 from app.account.models import UserCreate, UserOut
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
-from app.account.utils import create_tokens
+from app.account.utils import create_tokens, verify_refresh_token
 from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/account", tags=["Account"])
@@ -22,3 +22,13 @@ def login(session:SessionDep, form_data:OAuth2PasswordRequestForm = Depends()):
     response.set_cookie("refresh_token", tokens["refresh_token"], httponly=True, secure=True, samesite="lax")
     return response
 
+@router.post("/refresh")
+def refresh_token(session:SessionDep, request:Request):
+    token = request.cookies.get("refresh_token")
+    if not token:
+        raise HTTPException(status_code=404, detail="Missing Refresh Token")
+    user = verify_refresh_token(session, token)
+    return create_tokens(session,user)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid or expired Refresh token")
+    return create_tokens(session,user)
