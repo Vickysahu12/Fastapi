@@ -37,7 +37,7 @@ def verify_email_token(session:Session, token:str):
     user_id = verify_token_and_get_user_id(token, "verify")
     if not user_id:
         raise HTTPException(status_code=400, detail="Invalid or expired token")
-    stmt = select(User).where(user_id == user_id)
+    stmt = select(User).where(User.id == user_id)
     user = session.exec(stmt).first()
     if not user:
         raise HTTPException(status_code=404, detail="User Not found")
