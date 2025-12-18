@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Depends, HTTPException,Request
-from app.account.services import create_user, authenticate_user
+from app.account.services import create_user, authenticate_user, process_email_verification, verify_email_token
 from app.account.models import UserCreate, UserOut
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
@@ -37,3 +37,11 @@ def refresh_token(session:SessionDep, request:Request):
 @router.get("/me", response_model=UserOut)
 def me(user = Depends(get_current_user)):
     return user
+
+@router.post("/verify-request")
+def send_verification_email(user = Depends(get_current_user)):
+    return process_email_verification(user)
+
+@router.get("/verify")
+def verify_email(session: SessionDep, token: str):
+    return verify_email_token(session, token)
