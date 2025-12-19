@@ -12,9 +12,9 @@ async def lifespan(app:FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(account_router)
 
-@app.get("/")
-async def vicky():
-    return{
+@app.get("/me")
+async def main():
+     return{
         "me":"Hey Guys I am vickyyy",
         "dream":"I want to be an entreprenuer"
     }
