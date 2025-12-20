@@ -18,3 +18,9 @@ async def main():
         "me":"Hey Guys I am vickyyy",
         "dream":"I want to be an entreprenuer"
     }
+
+@app.get("/vicky")
+async def mine():
+     return{
+          "data":"lets start the journey again"
+     }
