@@ -24,3 +24,9 @@ async def mine():
      return{
           "data":"lets start the journey again"
      }
+
+@app.get("/restart")
+async def restart():
+     return{
+          "me":"Hyyy vicky restart again and do the fucking task"
+     }
