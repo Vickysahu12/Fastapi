@@ -3,9 +3,9 @@ from app.account.services import create_user, authenticate_user, process_email_v
 from app.account.models import UserCreate, UserOut
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
-from app.account.utils import create_tokens, verify_refresh_token
+from app.account.utils import create_tokens, verify_refresh_token,revoke_refresh_token
 from fastapi.responses import JSONResponse
-from app.account.dependencies import get_current_user
+from app.account.dependencies import get_current_user,require_admin
 
 router = APIRouter(prefix="/account", tags=["Account"])
 
@@ -58,3 +58,16 @@ def forgot_password(session:SessionDep, email:str):
 @router.post("/reset-password")
 def reset_password(session:SessionDep, token:str, new_password:str):
     return reset_password_with_token(session, token, new_password)
+
+@router.get("/admin")
+def admin(user = Depends(require_admin)):
+    return {"msg":f"Welcome Admin: {user.name}"}
+
+@router.post("/logout")
+def logout(session:SessionDep, request: Request):
+    token = request.cookies.get("refresh_token")
+    if token:
+        revoke_refresh_token(session, token)
+    response = JSONResponse(content={"detail":"logged out"})
+    response.delete_cookie("refresh_token")
+    return response

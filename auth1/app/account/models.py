@@ -5,7 +5,7 @@ class UserBase(SQLModel):
     email:str
     name:str
     is_active:bool = True
-    is_admin:bool = True
+    is_admin:bool = Field(default=False)
 
 class UserCreate(UserBase):
     password:str
