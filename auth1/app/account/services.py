@@ -45,3 +45,8 @@ def verify_email_token(session:Session, token:str):
     session.add(user)
     session.commit()
     return {"msg":"Email Verified Successfully"}
+
+def change_password(session: Session,user:User, new_password:str):
+    user.hashed_password = hash_password(new_password)
+    session.add(user)
+    session.commit()
