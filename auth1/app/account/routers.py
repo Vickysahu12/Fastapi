@@ -1,5 +1,5 @@
 from fastapi import APIRouter,Depends, HTTPException,Request
-from app.account.services import create_user, authenticate_user, process_email_verification, verify_email_token,change_password
+from app.account.services import create_user, authenticate_user, process_email_verification, verify_email_token,change_password,process_password_reset,reset_password_with_token
 from app.account.models import UserCreate, UserOut
 from fastapi.security import OAuth2PasswordRequestForm
 from app.db.config import SessionDep
@@ -50,3 +50,11 @@ def verify_email(session: SessionDep, token: str):
 def password_change(session:SessionDep, new_password:str, user = Depends(get_current_user)):
     change_password(session, user, new_password)
     return {"msg":"Password Change Succesfully"}
+
+@router.post("/forgot-password")
+def forgot_password(session:SessionDep, email:str):
+    return process_password_reset(session, email)
+
+@router.post("/reset-password")
+def reset_password(session:SessionDep, token:str, new_password:str):
+    return reset_password_with_token(session, token, new_password)
