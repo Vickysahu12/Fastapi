@@ -19,3 +19,10 @@ async def main():
         "dream":"I want to be an entreprenuer"
     }
 
+@app.get("/vicky")
+async def main():
+     return{
+        "me":"Hey Guys I am vickyyy",
+        "dream":"I want to make my own edtech startup "
+    }
+
