@@ -34,3 +34,10 @@ async def main():
         "dream2":"Launch my edtech startup and grow it to atleast as a revenue 5lakh a month before the year 2026 "
     }
 
+@app.get("/cat")
+async def main():
+     return{
+        "dream1":"Crack the CAT with 99.37 percentile in 2026",
+        "dream2":"Launch my edtech startup and grow it to atleast as a revenue 5lakh a month before the year 2026 "
+    }
+
