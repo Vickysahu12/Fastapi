@@ -6,7 +6,7 @@ from app.account.utils import hash_password,verify_password,create_email_verific
 def create_user(session:Session, user:UserCreate):
     stmt = select(User).where(User.email == user.email)
     if session.exec(stmt).first():
-        raise HTTPException(status_code=400, detail="Email Already Registered")
+        raise HTTPException(status_code=400, detail="Email Already Registered Please Try an Different Email")
     
     new_user = User(
         email=user.email,
@@ -36,15 +36,15 @@ def process_email_verification(user:User):
 def verify_email_token(session:Session, token:str):
     user_id = verify_token_and_get_user_id(token, "verify")
     if not user_id:
-        raise HTTPException(status_code=400, detail="Invalid or expired token")
+        raise HTTPException(status_code=400, detail="Invalid or expired token ")
     stmt = select(User).where(User.id == user_id)
     user = session.exec(stmt).first()
     if not user:
-        raise HTTPException(status_code=404, detail="User Not found")
+        raise HTTPException(status_code=404, detail="User Not found You are not A valid user")
     user.is_verified = True
     session.add(user)
     session.commit()
-    return {"msg":"Email Verified Successfully"}
+    return {"msg":"Email Verified Successfully, Welcome to Our system"}
 
 def change_password(session: Session,user:User, new_password:str):
     user.hashed_password = hash_password(new_password)
