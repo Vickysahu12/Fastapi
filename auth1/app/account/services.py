@@ -54,7 +54,7 @@ def change_password(session: Session,user:User, new_password:str):
 def process_password_reset(session:Session, email:str):
     user = get_user_by_email(session,email)
     if not user:
-        raise HTTPException(status_code=404, detail="User Not Found")
+        raise HTTPException(status_code=404, detail="User Not Found, This user not in our database")
     token = create_password_reset_token(user.id)
     link = f"http://localhost:8000/account/reset-password?token={token}"
     print(f"Reset your password: {link}")
@@ -63,10 +63,10 @@ def process_password_reset(session:Session, email:str):
 def reset_password_with_token(session:Session, token:str, new_password:str):
     user_id = verify_token_and_get_user_id(token, "reset")
     if not user_id:
-        raise HTTPException(status_code=400, detail="Invalid or Expired token")
+        raise HTTPException(status_code=400, detail="Invalid or Expired token, Create a New token by login to your id  ")
     stmt = select(User).where(User.id == user_id)
     user = session.exec(stmt).first()
     if not user:
         raise HTTPException(status_code=404, detail="User Not Found" )
     change_password(session, user, new_password)
-    return{"Msg":"Password reset Succesfully"}
+    return{"Msg":"Password reset Succesfully, Now you can user your new password"}
